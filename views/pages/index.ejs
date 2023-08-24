@@ -218,8 +218,11 @@
 				<% result.forEach((item)=>{ %>
     			<div class="col-lg-4 d-flex ftco-animate">
     				<div class="services-wrap d-flex">
-    					<a href="#" class="img" style="background-image: url(images/<%= item.image %>);"></a>
-    					<div class="text p-4">
+						
+    					<img  class="img" src="images/<%= item.image %>" alt="">
+    					
+						
+						<div class="text p-4">
     						<h3><%= item.name %></h3>
     						<p><%= item.description %></p>
 
