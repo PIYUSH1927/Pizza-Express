@@ -11,10 +11,18 @@ mysql.createConnection({
     password:"",
     database:"node_project"
 })
+
+
 app.use(express.static('public'))
 app.set('view engine','ejs')
 app.use(bodyParser.urlencoded({extended:true}))
-app.use(session({secret:"secret"}))
+
+app.use(session({
+    secret:"secret",
+    resave: false, // Set to false to prevent session from being saved on every request
+    saveUninitialized: true, // Set to true to save uninitialized sessions
+    // Other session configuration options
+  }));
 
 function isProductInCart(cart,id){
     for(let i=0;i<cart.length;i++){
@@ -36,6 +44,7 @@ function calculateTotal(cart,req){
     req.session.total = total
     return total
 }
+
 app.get('/',function(req,res){
     var con = mysql.createConnection({
         host:"localhost",
@@ -48,6 +57,8 @@ app.get('/',function(req,res){
     })
     
 })
+
+
 let port = process.env.PORT
 if(port==null || port == ""){
     port = 8080
@@ -55,6 +66,8 @@ if(port==null || port == ""){
 app.listen(8080,function(req,res){
     console.log("Server has started successfully")
 })
+
+
 
 app.post('/add_to_cart',function(req,res){
     var id = req.body.id
@@ -181,6 +194,8 @@ app.post('/remove_product',function(req,res){
         }   
     })
  })
+
+
   app.get('/payment',function(req,res){
     var total = req.session.total
    res.render('pages/payment',{total:total})
